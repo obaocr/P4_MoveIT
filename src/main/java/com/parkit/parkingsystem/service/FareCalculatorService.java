@@ -9,13 +9,16 @@ public class FareCalculatorService {
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
-
-        int inHour = ticket.getInTime().getHours();
-        int outHour = ticket.getOutTime().getHours();
-
+        
         //TODO: Some tests are failing here. Need to check if this logic is correct
-        int duration = outHour - inHour;
-
+        //OBA : Fix issue to calculate duration
+        
+        long diff = ticket.getOutTime().getTime() - ticket.getInTime().getTime();
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+        long diffMinutes = diff / (60 * 1000) % 60;
+        double duration = diffDays*24 + diffHours +  diffMinutes/60.0;
+        
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
                 ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
