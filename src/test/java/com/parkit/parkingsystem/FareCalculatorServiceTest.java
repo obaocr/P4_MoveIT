@@ -17,7 +17,12 @@ public class FareCalculatorServiceTest {
 
     private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
-
+    
+    // method to round the fare
+ 	private static double roundFare(double fare) {
+ 		return Math.round(fare * 100)/100.0;
+ 	}
+    
     @BeforeAll
     private static void setUp() {
         fareCalculatorService = new FareCalculatorService();
@@ -27,7 +32,7 @@ public class FareCalculatorServiceTest {
     private void setUpPerTest() {
         ticket = new Ticket();
     }
-
+   
     @Test
     public void calculateFareCar(){
         Date inTime = new Date();
@@ -93,7 +98,7 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice() );
+        assertEquals((roundFare(0.75 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice() );
     }
 
     @Test
@@ -107,7 +112,7 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals( (0.75 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
+        assertEquals((roundFare(0.75 * Fare.CAR_RATE_PER_HOUR)) , ticket.getPrice());
     }
 
     @Test
@@ -121,7 +126,7 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals( (24 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
+        assertEquals((roundFare(24 * Fare.CAR_RATE_PER_HOUR)) , ticket.getPrice());
     }
 
 }
