@@ -10,7 +10,8 @@ public class FareCalculatorService {
 		return Math.round(fare * 100)/100.0;
 	}
 	
-	// calculate the duration
+	// calculate the duration in hour
+	// TODO : A voir si on peut faire plkus court ou laisser en l'etat
 	private static double calculateDuration(Ticket ticket) {
 		long diff = ticket.getOutTime().getTime() - ticket.getInTime().getTime();
         long diffDays = diff / (24 * 60 * 60 * 1000);

@@ -15,12 +15,12 @@ public class DataBasePrepareService {
 
             //set parking entries to available
             connection.prepareStatement("update parking set available = true").execute();
-
+            
             //clear ticket entries;
             connection.prepareStatement("truncate table ticket").execute();
-
+            
         }catch(Exception e){
-            e.printStackTrace();
+        	e.printStackTrace();
         }finally {
             dataBaseTestConfig.closeConnection(connection);
         }

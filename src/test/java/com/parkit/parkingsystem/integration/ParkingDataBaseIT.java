@@ -23,9 +23,8 @@ public class ParkingDataBaseIT {
 	private static TicketDAO ticketDAO;
 	private static DataBasePrepareService dataBasePrepareService;
 
-	// static enlevé ?
 	@Mock
-	private InputReaderUtil inputReaderUtil;
+	private static InputReaderUtil inputReaderUtil;
 
 	@BeforeAll
 	private static void setUp() throws Exception {
@@ -40,7 +39,7 @@ public class ParkingDataBaseIT {
 
 	@BeforeEach
 	private void setUpPerTest() throws Exception {
-		// OBA modifié pour ne conserver que
+		// OBA modifie pour ne conserver que la selection
 		when(inputReaderUtil.readSelection()).thenReturn(1);
 	}
 
@@ -51,6 +50,7 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingACar() throws Exception {
+		Thread.sleep(1000);
 		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("AAAAA");
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
@@ -58,12 +58,13 @@ public class ParkingDataBaseIT {
 		// with availability
 	}
 
+	// TODO : A voir comment générer un tarif avec une durée significative
 	@Test
 	public void testParkingLotExit() throws Exception {
+		Thread.sleep(1000);
 		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
-		Thread.sleep(2000);
 		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService2.processExitingVehicle();
 		// TODO: check that the fare generated and out time are populated correctly in
