@@ -145,7 +145,7 @@ public class FareCalculatorServiceTest {
 		fareCalculatorService.calculateFare(ticket);
 		assertEquals((roundFare(Fare.FARE_LESS_30_MIN)), ticket.getPrice());
 	}
-	
+
 	@Test
 	public void calculateFareDiscountRecUsersParkingTime() {
 		Date inTime = new Date();
@@ -156,8 +156,9 @@ public class FareCalculatorServiceTest {
 		ticket.setInTime(inTime);
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
-		fareCalculatorService.calculateFareManageDiscount(ticket,1);
-		assertEquals((roundFare(((100.0 -  Fare.PCT_DISCOUNT_REC_USERS)/100) * 0.75 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+		fareCalculatorService.calculateFareManageDiscount(ticket, 1);
+		assertEquals((roundFare(((100.0 - Fare.PCT_DISCOUNT_REC_USERS) / 100) * 0.75 * Fare.CAR_RATE_PER_HOUR)),
+				ticket.getPrice());
 	}
-	
+
 }

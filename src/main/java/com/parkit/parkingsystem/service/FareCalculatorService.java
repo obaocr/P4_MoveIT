@@ -49,25 +49,25 @@ public class FareCalculatorService {
 			throw new IllegalArgumentException("Unkown Parking Type");
 		}
 	}
-	
-	// OBA : Nouvelle methode pour le tarif avec un argument en plkus ce qui facilite les tests unitaires 
+
+	// OBA : Nouvelle methode pour le tarif avec un argument en plkus ce qui
+	// facilite les tests unitaires
 	public void calculateFareManageDiscount(Ticket ticket, Integer NbOccVeh) {
 		if ((NbOccVeh == null || ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 		}
-		
+
 		Double pctDiscount = 0.0;
 		double calculateFare = 0.0;
-		
-		
+
 		// OBA : Fix issue to calculate duration, round for the fare
 		double duration = calculateDuration(ticket);
-		
+
 		// OBA Calculate PctDiscount
-		if (NbOccVeh> 0) {
+		if (NbOccVeh > 0) {
 			pctDiscount = Fare.PCT_DISCOUNT_REC_USERS;
 		}
-		
+
 		switch (ticket.getParkingSpot().getParkingType()) {
 		case CAR: {
 			if (duration < Fare.FREE_DURATION_IN_HOUR) {
