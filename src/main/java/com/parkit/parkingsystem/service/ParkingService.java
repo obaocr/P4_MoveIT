@@ -100,10 +100,13 @@ public class ParkingService {
     public void processExitingVehicle() {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
+            // OBA Story 2 Recherche du nombre occurenre par veh, à voir si on met cette methode de comptage dans cette classe ticketDAO ou classe a part !!!
+            Integer nbOccTicket = ticketDAO.getCountTicketByVehRegNum(vehicleRegNumber);
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);
-            fareCalculatorService.calculateFare(ticket);
+         // OBA Story 2  : Appel de la nouvelle methode
+            fareCalculatorService.calculateFareManageDiscount(ticket, nbOccTicket);
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);

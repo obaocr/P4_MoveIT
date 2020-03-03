@@ -61,14 +61,23 @@ public class ParkingDataBaseIT {
 	// TODO : A voir comment générer un tarif avec une durée significative
 	@Test
 	public void testParkingLotExit() throws Exception {
-		Thread.sleep(1000);
+		Thread.sleep(500);
 		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
+		// sleep sinon peut planter à cause de OutTime
+		Thread.sleep(500);
 		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService2.processExitingVehicle();
 		// TODO: check that the fare generated and out time are populated correctly in
 		// the database
+		Thread.sleep(500);
+		parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingService.processIncomingVehicle();
+		// sleep sinon peut planter à cause de OutTime
+		Thread.sleep(500);
+		parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingService2.processExitingVehicle();
 	}
 
 }

@@ -86,4 +86,27 @@ public class TicketDAO {
         }
         return false;
     }
+    
+    // TODO : story 2 Discount for recurrent users 
+    public Integer getCountTicketByVehRegNum(String vehicleRegNumber) {
+        Connection con = null;
+        Integer nbOccTicket = 0;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_OCC_VEH_NUMBER);
+            ps.setString(1,vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+            	nbOccTicket = rs.getInt(1);
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+        }catch (Exception ex){
+            logger.error("Error fetching next available slot",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+            return nbOccTicket;
+        }
+    }
+    
 }

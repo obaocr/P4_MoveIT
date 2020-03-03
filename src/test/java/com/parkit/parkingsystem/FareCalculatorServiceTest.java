@@ -145,5 +145,19 @@ public class FareCalculatorServiceTest {
 		fareCalculatorService.calculateFare(ticket);
 		assertEquals((roundFare(Fare.FARE_LESS_30_MIN)), ticket.getPrice());
 	}
+	
+	@Test
+	public void calculateFareDiscountRecUsersParkingTime() {
+		Date inTime = new Date();
+		inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));// 5 pct discount for recurrent users
+		Date outTime = new Date();
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
 
+		ticket.setInTime(inTime);
+		ticket.setOutTime(outTime);
+		ticket.setParkingSpot(parkingSpot);
+		fareCalculatorService.calculateFareManageDiscount(ticket,1);
+		assertEquals((roundFare(((100.0 -  Fare.PCT_DISCOUNT_REC_USERS)/100) * 0.75 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+	}
+	
 }
