@@ -33,7 +33,7 @@ public class ParkingDataBaseIT {
 		ticketDAO = new TicketDAO();
 		ticketDAO.dataBaseConfig = dataBaseTestConfig;
 		dataBasePrepareService = new DataBasePrepareService();
-		// OBA : Purge de la database de test faite une seule fois !
+		// OBA : Nettoyage de la database de test est faite une seule fois en debut des tests et non a chaque test !
 		dataBasePrepareService.clearDataBaseEntries();
 	}
 
