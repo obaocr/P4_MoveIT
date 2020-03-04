@@ -54,6 +54,7 @@ public class ParkingServiceTest {
 
 	@Test
 	public void processExitingVehicleTest() {
+		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis()));
 		parkingService.processExitingVehicle();
 		verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
 	}

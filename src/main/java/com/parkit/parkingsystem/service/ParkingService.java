@@ -112,7 +112,7 @@ public class ParkingService {
 			Date outTime = inputReaderUtil.getCurrentTime();
 			ticket.setOutTime(outTime);
 			// OBA Story 2 : Appel de la nouvelle methode
-			fareCalculatorService.calculateFareManageDiscount(ticket, nbOccTicket);
+			fareCalculatorService.calculateFare(ticket, nbOccTicket);
 			if (ticketDAO.updateTicket(ticket)) {
 				ParkingSpot parkingSpot = ticket.getParkingSpot();
 				parkingSpot.setAvailable(true);

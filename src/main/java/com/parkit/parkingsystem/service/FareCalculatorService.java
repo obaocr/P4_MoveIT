@@ -20,43 +20,12 @@ public class FareCalculatorService {
 		return (diffDays * 24 + diffHours + diffMinutes / 60.0);
 	}
 
-	public void calculateFare(Ticket ticket) {
-		if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
-			throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
-		}
-
-		// OBA : Fix issue to calculate duration, round for the fare
-		double duration = calculateDuration(ticket);
-
-		switch (ticket.getParkingSpot().getParkingType()) {
-		case CAR: {
-			if (duration < Fare.FREE_DURATION_IN_HOUR) {
-				ticket.setPrice(Fare.FARE_LESS_30_MIN);
-			} else {
-				ticket.setPrice(roundFare(duration * Fare.CAR_RATE_PER_HOUR));
-			}
-			break;
-		}
-		case BIKE: {
-			if (duration < Fare.FREE_DURATION_IN_HOUR) {
-				ticket.setPrice(Fare.FARE_LESS_30_MIN);
-			} else {
-				ticket.setPrice(roundFare(duration * Fare.BIKE_RATE_PER_HOUR));
-			}
-			break;
-		}
-		default:
-			throw new IllegalArgumentException("Unkown Parking Type");
-		}
-	}
-
-	// OBA : Nouvelle methode pour le tarif avec un argument en plkus ce qui
-	// facilite les tests unitaires
-	public void calculateFareManageDiscount(Ticket ticket, Integer NbOccVeh) {
+	// OBA : Nouvelle methode pour le tarif avec un argument en plus ce qui facilite les tests unitaires
+	public void calculateFare(Ticket ticket, Integer NbOccVeh) {
 		if ((NbOccVeh == null || ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 		}
-
+		
 		Double pctDiscount = 0.0;
 		double calculateFare = 0.0;
 
@@ -83,7 +52,7 @@ public class FareCalculatorService {
 			if (duration < Fare.FREE_DURATION_IN_HOUR) {
 				ticket.setPrice(Fare.FARE_LESS_30_MIN);
 			} else {
-				calculateFare = duration * Fare.CAR_RATE_PER_HOUR;
+				calculateFare = duration * Fare.BIKE_RATE_PER_HOUR;
 				calculateFare = calculateFare - ((calculateFare * pctDiscount) / 100.0);
 				ticket.setPrice(roundFare(calculateFare));
 			}
