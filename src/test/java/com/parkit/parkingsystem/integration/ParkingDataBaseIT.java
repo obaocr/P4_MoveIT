@@ -1,6 +1,7 @@
 package com.parkit.parkingsystem.integration;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
@@ -44,6 +45,7 @@ public class ParkingDataBaseIT {
 	@BeforeEach
 	private void setUpPerTest() throws Exception {
 		when(inputReaderUtil.readSelection()).thenReturn(1);
+		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 		dataBasePrepareService.clearDataBaseEntries();
 	}
 
@@ -54,9 +56,7 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingACar() throws Exception {
-		Thread.sleep(100);
-		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("AAAAA");
-		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis()));
+		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis()));
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
 		assertNotNull(ticketDAO.getTicket(inputReaderUtil.readVehicleRegistrationNumber()));
@@ -67,13 +67,11 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingLotExit() throws Exception {
-		Thread.sleep(100);
-		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis() - (45 * 60 * 1000)));
+		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis() - (45 * 60 * 1000)));
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
 		Thread.sleep(100);
-		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis()));
+		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis()));
 		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService2.processExitingVehicle();
 		assertTrue(ticketDAO.getTicket(inputReaderUtil.readVehicleRegistrationNumber()).getPrice() > 0);
@@ -87,11 +85,11 @@ public class ParkingDataBaseIT {
 	public void testParkingLotRecurrentUser() throws Exception {
 		Thread.sleep(100);
 		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis() - (120 * 60 * 1000)));
+		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis() - (120 * 60 * 1000)));
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
 		Thread.sleep(100);
-		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis()));
+		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis()));
 		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService2.processExitingVehicle();
 		// On peut tester la requête de comptage

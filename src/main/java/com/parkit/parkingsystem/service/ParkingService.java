@@ -38,7 +38,7 @@ public class ParkingService {
 
 				//Date inTime = new Date();
 				// OBA comme cela on pourra mocker
-				Date inTime = inputReaderUtil.getCurrentTime();
+				Date inTime = inputReaderUtil.getCurrentDate();
 				Ticket ticket = new Ticket();
 				// ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
 				// ticket.setId(ticketID);
@@ -113,7 +113,7 @@ public class ParkingService {
 			Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
 			//Date outTime = new Date();
 			// OBA comme cela on pourra mocker
-			Date outTime = inputReaderUtil.getCurrentTime();
+			Date outTime = inputReaderUtil.getCurrentDate();
 			ticket.setOutTime(outTime);
 			// OBA Story 2 : Appel de la nouvelle methode
 			fareCalculatorService.calculateFare(ticket, nbOccTicket);
