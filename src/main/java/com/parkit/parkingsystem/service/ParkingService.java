@@ -48,6 +48,10 @@ public class ParkingService {
 				ticket.setInTime(inTime);
 				ticket.setOutTime(null);
 				ticketDAO.saveTicket(ticket);
+				// OBA Story 2 Recherche si client recurrent pour affichage du message 
+				if (ticketDAO.getCountTicketByVehRegNum(ticket.getVehicleRegNumber()) > 0) {
+					System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+				}
 				System.out.println("Generated Ticket and saved in DB");
 				System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
 				System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
@@ -117,11 +121,6 @@ public class ParkingService {
 				ParkingSpot parkingSpot = ticket.getParkingSpot();
 				parkingSpot.setAvailable(true);
 				parkingSpotDAO.updateParking(parkingSpot);
-				// Affichage du messa pour client recurrents"
-				if (nbOccTicket > 0) {
-					System.out.println(
-							"Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
-				}
 				System.out.println("Please pay the parking fare:" + ticket.getPrice());
 				System.out.println(
 						"Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
