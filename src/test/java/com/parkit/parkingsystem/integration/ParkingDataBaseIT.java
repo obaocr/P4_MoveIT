@@ -54,7 +54,7 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingACar() throws Exception {
-		Thread.sleep(1000);
+		Thread.sleep(100);
 		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("AAAAA");
 		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis()));
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -67,20 +67,35 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingLotExit() throws Exception {
-		Thread.sleep(500);
+		Thread.sleep(100);
 		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis() - (45 * 60 * 1000)));
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
-		Thread.sleep(500);
+		Thread.sleep(100);
 		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis()));
 		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService2.processExitingVehicle();
-		System.out.println("veh:"+ inputReaderUtil.readVehicleRegistrationNumber());
 		assertTrue(ticketDAO.getTicket(inputReaderUtil.readVehicleRegistrationNumber()).getPrice() > 0);
 		assertNotNull(ticketDAO.getTicket(inputReaderUtil.readVehicleRegistrationNumber()).getOutTime());
 		// TODO: check that the fare generated and out time are populated correctly in
 		// the database
+	}
+	
+	// OBA ajout d'un test pour tester la requête de comptage pour les clients recurrents
+	@Test
+	public void testParkingLotRecurrentUser() throws Exception {
+		Thread.sleep(100);
+		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis() - (120 * 60 * 1000)));
+		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingService.processIncomingVehicle();
+		Thread.sleep(100);
+		when(inputReaderUtil.getCurrentTime()).thenReturn(new Date(System.currentTimeMillis()));
+		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingService2.processExitingVehicle();
+		// On peut tester la requête de comptage
+		assertTrue(ticketDAO.getCountTicketByVehRegNum(inputReaderUtil.readVehicleRegistrationNumber()) > 0);
 	}
 
 }
