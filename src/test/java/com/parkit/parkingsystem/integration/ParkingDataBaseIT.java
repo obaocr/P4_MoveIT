@@ -72,8 +72,7 @@ public class ParkingDataBaseIT {
 		parkingService.processIncomingVehicle();
 		Thread.sleep(100);
 		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis()));
-		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-		parkingService2.processExitingVehicle();
+		parkingService.processExitingVehicle();
 		assertTrue(ticketDAO.getTicket(inputReaderUtil.readVehicleRegistrationNumber()).getPrice() > 0);
 		assertNotNull(ticketDAO.getTicket(inputReaderUtil.readVehicleRegistrationNumber()).getOutTime());
 		// TODO: check that the fare generated and out time are populated correctly in
@@ -90,8 +89,9 @@ public class ParkingDataBaseIT {
 		parkingService.processIncomingVehicle();
 		Thread.sleep(100);
 		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis()));
-		ParkingService parkingService2 = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-		parkingService2.processExitingVehicle();
+		parkingService.processExitingVehicle();
+		Thread.sleep(100);
+		parkingService.processIncomingVehicle();
 		// On peut tester la requête de comptage
 		assertTrue(ticketDAO.getCountTicketByVehRegNum(inputReaderUtil.readVehicleRegistrationNumber()) > 0);
 	}
