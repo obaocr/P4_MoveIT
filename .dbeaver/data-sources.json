@@ -1,0 +1,37 @@
+{
+	"folders": {},
+	"connections": {
+		"mysql5-17086f1bb3e-315dac03a01019a5": {
+			"provider": "mysql",
+			"driver": "mysql5",
+			"name": "MySQL - test",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"database": "test?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Europe/Paris",
+				"url": "jdbc:mysql://localhost:3306/test?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Europe/Paris",
+				"home": "C:\\Program Files\\MySQL\\MySQL Router 8.0",
+				"type": "dev",
+				"properties": {
+					"connectTimeout": "20000"
+				},
+				"handlers": {}
+			},
+			"custom-properties": {
+				"database.meta.separate.connection": "false"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false
+		}
+	}
+}
