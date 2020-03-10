@@ -36,7 +36,7 @@ public class ParkingService {
 				parkingSpotDAO.updateParking(parkingSpot);// allot this parking space and mark it's availability as
 															// false
 
-				//Date inTime = new Date();
+				// Date inTime = new Date();
 				// OBA comme cela on pourra mocker
 				Date inTime = inputReaderUtil.getCurrentDate();
 				Ticket ticket = new Ticket();
@@ -48,9 +48,10 @@ public class ParkingService {
 				ticket.setInTime(inTime);
 				ticket.setOutTime(null);
 				ticketDAO.saveTicket(ticket);
-				// OBA Story 2 Recherche si client recurrent pour affichage du message 
+				// OBA Story 2 Recherche si client recurrent pour affichage du message
 				if (ticketDAO.getCountTicketByVehRegNum(ticket.getVehicleRegNumber()) > 0) {
-					System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+					System.out.println(
+							"Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
 				}
 				System.out.println("Generated Ticket and saved in DB");
 				System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
@@ -111,7 +112,7 @@ public class ParkingService {
 			// methode de comptage dans cette classe ticketDAO ou classe a part !!!
 			Integer nbOccTicket = ticketDAO.getCountTicketByVehRegNum(vehicleRegNumber);
 			Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-			//Date outTime = new Date();
+			// Date outTime = new Date();
 			// OBA comme cela on pourra mocker
 			Date outTime = inputReaderUtil.getCurrentDate();
 			ticket.setOutTime(outTime);

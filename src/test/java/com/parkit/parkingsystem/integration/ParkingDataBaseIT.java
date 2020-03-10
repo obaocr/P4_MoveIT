@@ -44,7 +44,6 @@ public class ParkingDataBaseIT {
 
 	@BeforeEach
 	private void setUpPerTest() throws Exception {
-		when(inputReaderUtil.readSelection()).thenReturn(1);
 		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 		dataBasePrepareService.clearDataBaseEntries();
 	}
@@ -56,6 +55,7 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingACar() throws Exception {
+		when(inputReaderUtil.readSelection()).thenReturn(1);
 		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis()));
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
@@ -67,6 +67,7 @@ public class ParkingDataBaseIT {
 
 	@Test
 	public void testParkingLotExit() throws Exception {
+		when(inputReaderUtil.readSelection()).thenReturn(1);
 		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis() - (45 * 60 * 1000)));
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();
@@ -78,12 +79,13 @@ public class ParkingDataBaseIT {
 		// TODO: check that the fare generated and out time are populated correctly in
 		// the database
 	}
-	
-	// OBA ajout d'un test pour tester la requête de comptage pour les clients recurrents
+
+	// OBA ajout d'un test pour tester la requête de comptage pour les clients
+	// recurrents
 	@Test
 	public void testParkingLotRecurrentUser() throws Exception {
+		when(inputReaderUtil.readSelection()).thenReturn(1);
 		Thread.sleep(100);
-		when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 		when(inputReaderUtil.getCurrentDate()).thenReturn(new Date(System.currentTimeMillis() - (120 * 60 * 1000)));
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processIncomingVehicle();

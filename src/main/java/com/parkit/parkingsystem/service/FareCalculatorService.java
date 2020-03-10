@@ -20,12 +20,13 @@ public class FareCalculatorService {
 		return (diffDays * 24 + diffHours + diffMinutes / 60.0);
 	}
 
-	// OBA : Nouvelle methode pour le tarif avec un argument en plus ce qui facilite les tests unitaires
+	// OBA : Nouvelle methode pour le tarif avec un argument en plus ce qui facilite
+	// les tests unitaires
 	public void calculateFare(Ticket ticket, Integer NbOccVeh) {
 		if ((NbOccVeh == null || ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 		}
-		
+
 		Double pctDiscount = 0.0;
 		double calculateFare = 0.0;
 

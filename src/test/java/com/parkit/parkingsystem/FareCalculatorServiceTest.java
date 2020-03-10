@@ -159,7 +159,7 @@ public class FareCalculatorServiceTest {
 		fareCalculatorService.calculateFare(ticket, 0);
 		assertTrue(ticket.getPrice() > 0);
 	}
-	
+
 	@Test
 	public void calculateFareFreeLess30MinParkingTimeBike() {
 		Date inTime = new Date();
@@ -201,6 +201,23 @@ public class FareCalculatorServiceTest {
 		fareCalculatorService.calculateFare(ticket, 1);
 		assertEquals((roundFare(((100.0 - Fare.PCT_DISCOUNT_REC_USERS) / 100) * 0.75 * Fare.CAR_RATE_PER_HOUR)),
 				ticket.getPrice());
+	}
+
+	// Test exception
+	@Test
+	public void calculateFareParkingTypeException() {
+		try {
+			Date inTime = new Date();
+			inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
+			Date outTime = new Date();
+			ParkingSpot parkingSpot = new ParkingSpot(0, null, false);
+			ticket.setInTime(inTime);
+			ticket.setOutTime(outTime);
+			ticket.setParkingSpot(parkingSpot);
+			fareCalculatorService.calculateFare(ticket, 0);
+		} catch (IllegalArgumentException iExp) {
+			assertTrue(iExp.getMessage().equals("Unkown Parking Type"));
+		}
 	}
 
 }

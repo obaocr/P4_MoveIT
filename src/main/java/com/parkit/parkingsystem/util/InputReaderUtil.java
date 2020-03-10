@@ -35,7 +35,7 @@ public class InputReaderUtil {
 			throw e;
 		}
 	}
-	
+
 	// OBA : commme cela on pourra mocker la date de sortie...
 	public Date getCurrentDate() {
 		return new Date();
