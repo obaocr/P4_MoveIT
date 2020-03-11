@@ -6,7 +6,7 @@ import com.parkit.parkingsystem.model.Ticket;
 public class FareCalculatorService {
 
 	// method to round the fare
-	private static double roundFare(double fare) {
+	public static double roundFare(double fare) {
 		return Math.round(fare * 100) / 100.0;
 	}
 
@@ -22,9 +22,12 @@ public class FareCalculatorService {
 
 	// OBA : Nouvelle methode pour le tarif avec un argument en plus ce qui facilite
 	// les tests unitaires
-	public void calculateFare(Ticket ticket, Integer NbOccVeh) {
-		if ((NbOccVeh == null || ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
+	public void calculateFare(Ticket ticket, int NbOccVeh) {
+		if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
+		}
+		if (NbOccVeh < 0 ) {
+			throw new IllegalArgumentException("Invalide occurence for recurring users :" + NbOccVeh);
 		}
 
 		Double pctDiscount = 0.0;

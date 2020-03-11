@@ -1,27 +1,25 @@
 package com.parkit.parkingsystem;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Date;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Date;
 
 public class FareCalculatorServiceTest {
 
 	private static FareCalculatorService fareCalculatorService;
 	private Ticket ticket;
-
-	// method to round the fare
-	private static double roundFare(double fare) {
-		return Math.round(fare * 100) / 100.0;
-	}
 
 	@BeforeAll
 	private static void setUp() {
@@ -99,7 +97,7 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket, 0);
-		assertEquals((roundFare(0.75 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
+		assertEquals((FareCalculatorService.roundFare(0.75 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
 	}
 
 	@Test
@@ -114,7 +112,7 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket, 0);
-		assertEquals((roundFare(0.75 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+		assertEquals((FareCalculatorService.roundFare(0.75 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
 	}
 
 	@Test
@@ -129,7 +127,7 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket, 0);
-		assertEquals((roundFare(24 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+		assertEquals((FareCalculatorService.roundFare(24 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
 	}
 
 	@Test
@@ -143,7 +141,7 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket, 0);
-		assertEquals((roundFare(Fare.FARE_LESS_30_MIN)), ticket.getPrice());
+		assertEquals((FareCalculatorService.roundFare(Fare.FARE_LESS_30_MIN)), ticket.getPrice());
 	}
 
 	@Test
@@ -171,7 +169,7 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket, 0);
-		assertEquals((roundFare(Fare.FARE_LESS_30_MIN)), ticket.getPrice());
+		assertEquals((FareCalculatorService.roundFare(Fare.FARE_LESS_30_MIN)), ticket.getPrice());
 	}
 
 	@Test
@@ -199,24 +197,24 @@ public class FareCalculatorServiceTest {
 		ticket.setOutTime(outTime);
 		ticket.setParkingSpot(parkingSpot);
 		fareCalculatorService.calculateFare(ticket, 1);
-		assertEquals((roundFare(((100.0 - Fare.PCT_DISCOUNT_REC_USERS) / 100) * 0.75 * Fare.CAR_RATE_PER_HOUR)),
+		assertEquals((FareCalculatorService.roundFare(((100.0 - Fare.PCT_DISCOUNT_REC_USERS) / 100) * 0.75 * Fare.CAR_RATE_PER_HOUR)),
 				ticket.getPrice());
 	}
 
 	// Test exception
 	@Test
-	public void calculateFareParkingTypeException() {
+	public void calculateFareParkingRecUserException() {
 		try {
 			Date inTime = new Date();
 			inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
 			Date outTime = new Date();
-			ParkingSpot parkingSpot = new ParkingSpot(0, null, false);
+			ParkingSpot parkingSpot = new ParkingSpot(0, ParkingType.CAR, false);
 			ticket.setInTime(inTime);
 			ticket.setOutTime(outTime);
 			ticket.setParkingSpot(parkingSpot);
-			fareCalculatorService.calculateFare(ticket, 0);
-		} catch (IllegalArgumentException iExp) {
-			assertTrue(iExp.getMessage().equals("Unkown Parking Type"));
+			fareCalculatorService.calculateFare(ticket, -1);
+		} catch (Exception iExp) {
+			assertTrue(iExp.getMessage().equals("Invalide occurence for recurring users :-1"));
 		}
 	}
 

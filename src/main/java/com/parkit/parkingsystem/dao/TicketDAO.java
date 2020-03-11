@@ -88,9 +88,9 @@ public class TicketDAO {
 	}
 
 	// TODO : story 2 Discount for recurrent users
-	public Integer getCountTicketByVehRegNum(String vehicleRegNumber) {
+	public int getCountTicketByVehRegNum(String vehicleRegNumber) {
 		Connection con = null;
-		Integer nbOccTicket = 0;
+		int nbOccTicket = 0;
 		try {
 			con = dataBaseConfig.getConnection();
 			PreparedStatement ps = con.prepareStatement(DBConstants.GET_OCC_VEH_NUMBER);

@@ -110,7 +110,7 @@ public class ParkingService {
 			String vehicleRegNumber = getVehichleRegNumber();
 			// OBA Story 2 Recherche du nombre occurenre par veh, à voir si on met cette
 			// methode de comptage dans cette classe ticketDAO ou classe a part !!!
-			Integer nbOccTicket = ticketDAO.getCountTicketByVehRegNum(vehicleRegNumber);
+			int nbOccTicket = ticketDAO.getCountTicketByVehRegNum(vehicleRegNumber);
 			Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
 			// Date outTime = new Date();
 			// OBA comme cela on pourra mocker
