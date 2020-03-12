@@ -201,7 +201,7 @@ public class FareCalculatorServiceTest {
 				ticket.getPrice());
 	}
 
-	// Test exception
+	// Test exception 
 	@Test
 	public void calculateFareParkingRecUserException() {
 		try {
@@ -212,10 +212,24 @@ public class FareCalculatorServiceTest {
 			ticket.setInTime(inTime);
 			ticket.setOutTime(outTime);
 			ticket.setParkingSpot(parkingSpot);
-			fareCalculatorService.calculateFare(ticket, -1);
+			fareCalculatorService.calculateFare(ticket, -1); // occurence must be >= 0
 		} catch (Exception iExp) {
-			assertTrue(iExp.getMessage().equals("Invalide occurence for recurring users :-1"));
+			assertTrue(iExp.getMessage().contains("Invalide occurence for recurring users :"));
 		}
 	}
+	
+	// Test exception with asserThrows
+		@Test
+		public void calculateFareParkingRecUserException2() {
+				Date inTime = new Date();
+				inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
+				Date outTime = new Date();
+				ParkingSpot parkingSpot = new ParkingSpot(0, ParkingType.CAR, false);
+				ticket.setInTime(inTime);
+				ticket.setOutTime(outTime);
+				ticket.setParkingSpot(parkingSpot);
+				Throwable exception = assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket, -1));
+				assertTrue(exception.getMessage().contains("Invalide occurence for recurring users :"));
+		}
 
 }
