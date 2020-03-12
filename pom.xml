@@ -59,7 +59,13 @@
 			<artifactId>maven-assembly-plugin</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		<dependency>
+		    <groupId>com.github.spotbugs</groupId>
+		    <artifactId>spotbugs-maven-plugin</artifactId>
+		    <version>3.1.12.2</version>
+		</dependency>
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -202,7 +208,7 @@
 									<includes>
 										<include>coverage-reports/*.exec</include>
 										<include>coverage-reports/*.exec</include>
-									<!-- 	finaliser le rapport html -->
+										<!-- finaliser le rapport html -->
 									</includes>
 								</fileSet>
 							</fileSets>
@@ -223,28 +229,28 @@
 					</execution>
 				</executions>
 			</plugin>
-			
-			<!-- plugin spotbugs -->
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>3.1.8</version>
-				<configuration>
-					<failOnError>false</failOnError>
-				</configuration>
-			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.7.1</version>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>3.0.0</version>
-			</plugin>
 		</plugins>
 	</build>
-
+	
+	<!-- Pour generer le rapport spotbug -->
+	<reporting>
+	    <plugins>
+	        <plugin>
+	            <groupId>com.github.spotbugs</groupId>
+	            <artifactId>spotbugs-maven-plugin</artifactId>
+	            <version>3.1.8</version>
+	            <configuration>
+	                <failOnError>false</failOnError>
+	            </configuration>
+	        </plugin>
+	    </plugins>
+	</reporting>
+	
 </project>
