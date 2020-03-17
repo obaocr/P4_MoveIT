@@ -4,6 +4,11 @@ import com.parkit.parkingsystem.service.InteractiveShell;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * 
+ * @author S063912 This application allows you to manage parking tickets for the
+ *         entry and exit of vehicles (car or motorcycle).
+ */
 public class App {
 	private static final Logger logger = LogManager.getLogger("App");
 

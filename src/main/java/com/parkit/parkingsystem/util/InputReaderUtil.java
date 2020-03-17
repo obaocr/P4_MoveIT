@@ -6,6 +6,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * 
+ * @author S063912 The model for the parking
+ */
 public class InputReaderUtil {
 
 	private static Scanner scan = new Scanner(System.in, "UTF-8");

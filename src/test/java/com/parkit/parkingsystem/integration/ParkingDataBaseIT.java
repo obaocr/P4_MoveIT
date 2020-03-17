@@ -80,7 +80,8 @@ public class ParkingDataBaseIT {
 		// the database
 	}
 
-	// OBA ajout d'un test pour tester la requête de comptage pour les clients recurrents
+	// OBA ajout d'un test pour tester la requête de comptage pour les clients
+	// recurrents
 	@Test
 	public void testParkingLotRecurrentUser() throws Exception {
 		when(inputReaderUtil.readSelection()).thenReturn(1);

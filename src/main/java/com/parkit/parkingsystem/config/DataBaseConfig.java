@@ -6,6 +6,10 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ResourceBundle;
 
+/**
+ * 
+ * @author S063912 Class to manage the connection to the database (prod)
+ */
 public class DataBaseConfig {
 
 	private static final Logger logger = LogManager.getLogger("DataBaseConfig");

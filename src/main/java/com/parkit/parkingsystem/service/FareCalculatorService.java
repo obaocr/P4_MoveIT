@@ -3,6 +3,10 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
+/**
+ * 
+ * @author S063912 This class to calculate the price
+ */
 public class FareCalculatorService {
 
 	// method to round the fare
@@ -26,7 +30,7 @@ public class FareCalculatorService {
 		if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 		}
-		if (NbOccVeh < 0 ) {
+		if (NbOccVeh < 0) {
 			throw new IllegalArgumentException("Invalide occurence for recurring users :" + NbOccVeh);
 		}
 

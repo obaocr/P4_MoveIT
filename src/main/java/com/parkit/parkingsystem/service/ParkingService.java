@@ -11,6 +11,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author S063912 Class to manage the incoming and outcoming process
+ */
 public class ParkingService {
 
 	private static final Logger logger = LogManager.getLogger("ParkingService");
